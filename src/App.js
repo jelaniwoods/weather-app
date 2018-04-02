@@ -25,7 +25,7 @@ class App extends Component {
     const country = e.target.elements.country.value;
     const api_call = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&APPID=${API_KEY}`);
     const data = await api_call.json();
-    console.log(data);
+    // console.log(data);
     if (city && country) {
       this.setState({
         temperature: data.main.temp,
@@ -36,6 +36,17 @@ class App extends Component {
         sunrise: data.sys.sunrise,
         sunset: data.sys.sunset,
         error: ""
+      });
+    } else {
+      this.setState({
+        temperature: undefined,
+        city: undefined,
+        country: undefined,
+        humidity: undefined,
+        description: undefined,
+        sunrise: undefined,
+        sunset: undefined,
+        error: "Please enter a correct City and Country"
       });
     }
   }
