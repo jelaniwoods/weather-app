@@ -27,13 +27,13 @@ class App extends Component {
     // console.log(data);
     if (city && country) {
       this.setState({
-        temperature: data.main.temp,
+        temperature: (9/5 * (data.main.temp - 273.15) + 32 ).toFixed(2),
         city: data.name,
         country: data.sys.country,
         humidity: data.main.humidity,
         description: data.weather[0].description,
-        sunrise: data.sys.sunrise,
-        sunset: data.sys.sunset,
+        sunrise: this.getRealTime(data.sys.sunrise),
+        sunset: this.getRealTime(data.sys.sunset),
         error: ""
       });
     } else {
@@ -48,6 +48,19 @@ class App extends Component {
         error: "Please enter a correct City and Country"
       });
     }
+  }
+  getRealTime(unix_timestamp) {
+    let date = new Date(unix_timestamp*1000);
+    // Hours part from the timestamp
+    let hours = date.getHours();
+    // Minutes part from the timestamp
+    let minutes = "0" + date.getMinutes();
+    // Seconds part from the timestamp
+    let seconds = "0" + date.getSeconds();
+
+    // Will display time in 10:30:23 format
+    let formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+    return formattedTime;
   }
   render() {
     return (
